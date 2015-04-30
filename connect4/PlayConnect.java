@@ -1,6 +1,8 @@
 package connect4;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,6 +25,7 @@ private JButton swtichButton;
 		// TODO Auto-generated method stub
 		
 		PlayConnect game = new PlayConnect();
+	   
 		game.startGame();
 
 	}
@@ -39,7 +42,7 @@ private JButton swtichButton;
 		gridPanel.setLayout(new GridLayout(6, 7));
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
-				Cell tempCell = new Cell();
+				Cell tempCell = new Cell(i,j);
 				gridUI[i][j] = tempCell;
 				gridPanel.add(tempCell);
 				
