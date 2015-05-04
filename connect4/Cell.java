@@ -18,7 +18,7 @@ public class Cell extends JPanel implements  MouseListener{
 	private String status; 
 	private Color curColor;
 	private Boolean occupied;
-	private Boolean gameOver;
+	private static Boolean gameOver = false;
 	private static int player;
 	private Color player1 = Color.BLUE;
 	private Color player2 = Color.RED;
@@ -49,7 +49,8 @@ public class Cell extends JPanel implements  MouseListener{
 
 
 	public void mouseEntered(MouseEvent arg0){
-		if(!occupied){
+
+		if(!gameOver && !occupied){
 			if(player==1){
 				curColor = player1;	
 			} else{
@@ -59,10 +60,12 @@ public class Cell extends JPanel implements  MouseListener{
 			repaint();	
 		}
 
+
+
 	}
 
 	public void mouseExited(MouseEvent arg0){
-		if(!occupied){
+		if(!gameOver && !occupied){
 			curColor = Color.WHITE;
 			repaint();
 		}
@@ -86,7 +89,7 @@ public class Cell extends JPanel implements  MouseListener{
 				gameOver = checkGrid();
 
 				if(gameOver){
-
+					System.out.println(player + " Wins");
 				}else{
 					if(player==1){
 						player = 2;
@@ -107,6 +110,103 @@ public class Cell extends JPanel implements  MouseListener{
 
 	private Boolean checkGrid(){
 		Boolean win = false;
+
+		int[][] gridCopy = new int[6][7];
+		gridCopy = gridTrack;
+
+		int counter= 0;
+
+		//     Horizontal Check 		
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				if(gridCopy[i][j]==player){
+					counter++;
+				} else{
+					counter = 0;
+				}
+
+				if(counter==4){
+					win = true;
+					return win;
+				}
+
+			}
+
+		}
+
+		//     Vertical Check 
+		counter = 0;
+		for (int j = 0; j < 7; j++) {
+			for (int i = 0; i < 6; i++) {
+				if(gridCopy[i][j]==player){
+					counter++;
+				} else{
+					counter = 0;
+				}
+
+				if(counter==4){
+					win = true;
+					return win;
+				}
+
+			}
+
+		}
+
+		////    Diag Check 1 (\)
+		counter = 0;
+		for (int j = 0; j < 4; j++) {
+			for (int i = 0; i < 3; i++) {
+
+				for (int k = 0; k < 4; k++) {
+
+					if(gridCopy[k+i][j+k]==player){
+						counter++;
+					} else{
+						counter = 0;
+					}
+
+
+					if(counter==4){
+						win = true;
+						return win;
+					}
+
+
+				}
+
+
+			}
+		}
+
+
+		////    Diag Check 2 (/)
+		counter = 0;
+		for (int j = 3; j < 7; j++) {
+			for (int i = 0; i < 3; i++) {
+
+				for (int k = 0; k < 4; k++) {
+
+					if(gridCopy[k+i][j-k]==player){
+						counter++;
+					} else{
+						counter = 0;
+					}
+
+
+					if(counter==4){
+						win = true;
+						return win;
+					}
+
+
+				}
+
+
+			}
+		}
+
+
 		return win;
 	}
 	@Override
