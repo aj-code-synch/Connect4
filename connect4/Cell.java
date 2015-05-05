@@ -8,6 +8,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,8 +19,9 @@ public class Cell extends JPanel implements  MouseListener{
 	private String status; 
 	private Color curColor;
 	private Boolean occupied;
-	private static Boolean gameOver = false;
-	private static int player;
+	public static Boolean gameOver = false;
+	public static int player;
+	public static boolean randPlayer = false;
 	private Color player1 = Color.BLUE;
 	private Color player2 = Color.RED;
 	private static int[][] gridTrack = new int[6][7];
@@ -30,8 +32,6 @@ public class Cell extends JPanel implements  MouseListener{
 		setBackground(Color.GRAY);
 		player = 0;
 		curColor = Color.WHITE;
-		//		addMouseMotionListener(this);
-		//		addFocusListener(this);
 		addMouseListener(this);
 		occupied = false;
 		player = 1;
@@ -80,6 +80,7 @@ public class Cell extends JPanel implements  MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("Cell Click");
 		if(!occupied){
 
 			if(row == 5 || (row < 5 && gridTrack[row+1][column]!=0)){
@@ -103,6 +104,10 @@ public class Cell extends JPanel implements  MouseListener{
 
 
 
+		}
+		System.out.println("Random " + randPlayer);
+		if (randPlayer) {
+			randMove();
 		}
 
 	}
@@ -218,6 +223,43 @@ public class Cell extends JPanel implements  MouseListener{
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
+
+	}
+
+	public void randMove(){
+		Random randClass = new Random();
+		int column = 0;
+		int row = 0;
+		column = randClass.nextInt(7);
+		System.out.println("Random Column" + column);
+		for (int i = 0; i < 6; i++) {
+			if(gridTrack[i][column] != 0){
+				row = i-1;
+				break;
+			}
+			if(i==5){
+				row = 5;
+			}
+			gridTrack[row][column] = player;
+			System.out.println("Random Move" + row + "//" + column);
+			curColor = player2;
+			gameOver = checkGrid();
+
+			if(gameOver){
+				System.out.println(player + " Wins");
+			}else{
+				if(player==1){
+					player = 2;
+				}else{
+					player = 1;
+				}   
+			}
+
+			repaint();
+
+
+		}
+
 
 	}
 
