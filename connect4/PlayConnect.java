@@ -22,9 +22,10 @@ public class PlayConnect implements  MouseListener {
 private Cell[][] gridUI = new Cell[6][7];
 private JFrame mainFrame;
 private JPanel basePanel,
-               gridPanel,
                buttonPanel,
                messagePanel;
+
+private Grid gridPanel;
 
 //private JLayeredPane gridPanel;
 private JTextArea messArea;
@@ -52,21 +53,21 @@ private RandomMoves randButtonHandle;
 //        basePanel.setLayout(new BorderLayout());
 		mainFrame.add(basePanel);
 		
-		gridPanel = new JPanel();
+		gridPanel = new Grid();
 //		gridPanel = new JLayeredPane();
 		gridPanel.addMouseListener(this);
-		gridPanel.setLayout(new GridLayout(6, 7));
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 7; j++) {
-				Cell tempCell = new Cell(i,j);
-				tempCell.addMouseListener(this);
-				gridUI[i][j] = tempCell;
-				gridPanel.add(tempCell);
-			
-				
-			}
-			
-		}
+//		gridPanel.setLayout(new GridLayout(6, 7));
+//		for (int i = 0; i < 6; i++) {
+//			for (int j = 0; j < 7; j++) {
+//				Cell tempCell = new Cell(i,j);
+//				tempCell.addMouseListener(this);
+//				gridUI[i][j] = tempCell;
+//				gridPanel.add(tempCell);
+//			
+//				
+//			}
+//			
+//		}
 		
 		
 		
@@ -107,7 +108,7 @@ private RandomMoves randButtonHandle;
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		System.out.println("MainClass Click");
-		if(gridUI[0][0].gameOver){
+		if(gridPanel.gameOver){
 			
 			String message = null;
 			
