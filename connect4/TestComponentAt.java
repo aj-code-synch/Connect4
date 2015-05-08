@@ -43,12 +43,14 @@ public class TestComponentAt extends JPanel {
                selectedPanel.removeAll();
                selectedPanel.revalidate();
                selectedPanel.repaint();
+               System.out.println(selectedPanel.getName());
             }
             selectedPanel = panel;
             selectedPanel.setBackground(SELECTION_COLOR);
             selectedPanel.add(new JLabel(selectedPanel.getName()));
             selectedPanel.revalidate();
             selectedPanel.repaint();
+            System.out.println(selectedPanel.getName());
          }
       });
    }

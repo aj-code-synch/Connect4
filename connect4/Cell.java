@@ -3,6 +3,7 @@ package connect4;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
@@ -32,6 +33,7 @@ public class Cell extends JPanel implements MouseListener{
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 		setBackground(Color.GRAY);
 		player = 0;
+		this.setName(Integer.toString(row_in*6+column_in));
 		curColor = Color.WHITE;
 		addMouseListener(this);
 		occupied = false;
@@ -78,7 +80,12 @@ public class Cell extends JPanel implements MouseListener{
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Cell Click");
+		System.out.println("Cell Click nnnn");
+		Point mousePoint;
+
+		mousePoint = e.getPoint();
+		System.out.println(mousePoint.x + "||" + mousePoint.y);
+		Cell clickedCell = (Cell)getComponentAt(mousePoint);
 }
 	
 ////	@Override
