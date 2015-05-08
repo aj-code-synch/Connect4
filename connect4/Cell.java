@@ -15,7 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class Cell extends JPanel implements MouseListener{
+public class Cell extends JPanel{
 
 	private String status; 
 	private Color curColor;
@@ -35,7 +35,7 @@ public class Cell extends JPanel implements MouseListener{
 		player = 0;
 		this.setName(Integer.toString(row_in*6+column_in));
 		curColor = Color.WHITE;
-		addMouseListener(this);
+//		addMouseListener(this);
 		occupied = false;
 		player = 1;
 		row = row_in;
@@ -51,90 +51,33 @@ public class Cell extends JPanel implements MouseListener{
 	}
 
 
-	public void mouseEntered(MouseEvent arg0){
-
-		if(!gameOver && !occupied){
-			if(player==1){
-				curColor = player1;	
-			} else{
-				curColor = player2;
-			}
-
-			repaint();	
-		}
-
-
-
-	}
-
-	public void mouseExited(MouseEvent arg0){
-		if(!gameOver && !occupied){
-			curColor = Color.WHITE;
-			repaint();
-		}
-
-	}
-
-	public void markOccupied(){
-		occupied = true;
-	}
-
-	public void mouseClicked(MouseEvent e) {
-		System.out.println("Cell Click nnnn");
-		Point mousePoint;
-
-		mousePoint = e.getPoint();
-		System.out.println(mousePoint.x + "||" + mousePoint.y);
-		Cell clickedCell = (Cell)getComponentAt(mousePoint);
-}
-	
-////	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+//	public void mouseEntered(MouseEvent arg0){
 //
-////	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-//	@Override
-//	public void mouseClicked(MouseEvent e) {
-//		// TODO Auto-generated method stub
-//		System.out.println("Cell Click");
-//		if(!occupied){
-//
-//			if(row == 5 || (row < 5 && gridTrack[row+1][column]!=0)){
-//				occupied = true;
-//				gridTrack[row][column] = player;
-//
-//				gameOver = checkGrid();
-//
-//				if(gameOver){
-//					System.out.println(player + " Wins");
-//				}else{
-//					if(player==1){
-//						player = 2;
-//					}else{
-//						player = 1;
-//					}   
-//				}
-//
-//				repaint();
+//		if(!gameOver && !occupied){
+//			if(player==1){
+//				curColor = player1;	
+//			} else{
+//				curColor = player2;
 //			}
 //
-//
-//
+//			repaint();	
 //		}
-//		System.out.println("Random " + randPlayer);
-//		if (randPlayer) {
-//			randMove();
+//
+//
+//
+//	}
+//
+//	public void mouseExited(MouseEvent arg0){
+//		if(!gameOver && !occupied){
+//			curColor = Color.WHITE;
+//			repaint();
 //		}
 //
 //	}
 
+	public void markOccupied(){
+		occupied = true;
+	}
 
 //	private Boolean checkGrid(){
 //		Boolean win = false;
@@ -277,7 +220,7 @@ public class Cell extends JPanel implements MouseListener{
 //	}
 	
 	public Boolean fillTile(int player_in){
-		System.out.println("Cell Click");
+//		System.out.println("Cell Click");
 		Boolean filled = false;
 		if(!occupied){
 
@@ -300,29 +243,29 @@ public class Cell extends JPanel implements MouseListener{
 	}
 
 	
-	public void mouseEntered(int player_in){
+//	public void mouseEntered(int player_in){
+//
+//		if(!occupied){
+//			if(player_in==1){
+//				curColor = player1;	
+//			} else{
+//				curColor = player2;
+//			}
+//
+//			repaint();	
+//		}
+//
+//
+//
+//	}
 
-		if(!occupied){
-			if(player_in==1){
-				curColor = player1;	
-			} else{
-				curColor = player2;
-			}
-
-			repaint();	
-		}
-
-
-
-	}
-
-	public void mouseExited(int player_in){
-		if(!occupied){
-			curColor = Color.WHITE;
-			repaint();
-		}
-
-	}
+//	public void mouseExited(int player_in){
+//		if(!occupied){
+//			curColor = Color.WHITE;
+//			repaint();
+//		}
+//
+//	}
 
 	
 }

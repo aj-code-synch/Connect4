@@ -16,7 +16,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class PlayConnect implements  MouseListener {
+public class PlayConnect implements MouseListener {
 
 //private String[][] grid = new String[6][7];
 private Cell[][] gridUI = new Cell[6][7];
@@ -54,21 +54,7 @@ private RandomMoves randButtonHandle;
 		mainFrame.add(basePanel);
 		
 		gridPanel = new Grid();
-//		gridPanel = new JLayeredPane();
-		gridPanel.addMouseListener(this);
-//		gridPanel.setLayout(new GridLayout(6, 7));
-//		for (int i = 0; i < 6; i++) {
-//			for (int j = 0; j < 7; j++) {
-//				Cell tempCell = new Cell(i,j);
-//				tempCell.addMouseListener(this);
-//				gridUI[i][j] = tempCell;
-//				gridPanel.add(tempCell);
-//			
-//				
-//			}
-//			
-//		}
-		
+	
 		
 		
 		basePanel.add(gridPanel,BorderLayout.CENTER);
@@ -104,7 +90,7 @@ private RandomMoves randButtonHandle;
 		
 	}
 
-	@Override
+//	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		System.out.println("MainClass Click");
@@ -125,25 +111,25 @@ private RandomMoves randButtonHandle;
 		
 	}
 
-	@Override
+//	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
+//
+//	@Override
 	public void mouseExited(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
+//
+//	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
+//
+//	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		

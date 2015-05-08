@@ -48,15 +48,19 @@ public class Grid extends JPanel implements MouseListener {
 		System.out.println(mousePoint.x + "||" + mousePoint.y);
 		clickedCell = (Cell)getComponentAt(mousePoint);
 
+		Component clickedComp = getComponentAt(mousePoint);
+		int cellIndex;
+		cellIndex = Integer.parseInt(clickedComp.getName());
 
 		//		Point mousePoint = MouseInfo.
-		//		int cellIndex;
-		//		int cellX = mousePoint.x/Cell.cellSize;
-		//		int cellY = mousePoint.y/Cell.cellSize;
+//		int cellIndex;
+		cellIndex = Integer.parseInt(clickedCell.getName());
+		int cellX = cellIndex / 7;
+		int cellY = cellIndex % 7;
 		//		cellIndex = cellX * 7 + cellY;
 		//		System.out.println(cellIndex);
 		//		clickedCell = cellArray.get(cellIndex);
-		System.out.println("Clicked on" + "[" + clickedCell.row + "][" + clickedCell.column+ "]");
+		System.out.println("Clicked on" + "[" + cellX + "][" + cellY+ "]");
 		filled = clickedCell.fillTile(player);
 		if(filled == true){
 			gridTrack[clickedCell.row][clickedCell.column] = player;
