@@ -50,72 +50,12 @@ public class Cell extends JPanel{
 	}
 
 
-	//	public void mouseEntered(MouseEvent arg0){
-	//
-	//		if(!gameOver && !occupied){
-	//			if(player==1){
-	//				curColor = player1;	
-	//			} else{
-	//				curColor = player2;
-	//			}
-	//
-	//			repaint();	
-	//		}
-	//
-	//
-	//
-	//	}
-	//
-	//	public void mouseExited(MouseEvent arg0){
-	//		if(!gameOver && !occupied){
-	//			curColor = Color.WHITE;
-	//			repaint();
-	//		}
-	//
-	//	}
+
 
 	public void markOccupied(){
 		occupied = true;
 	}
 
-
-
-	//	public void randMove(){
-	//		Random randClass = new Random();
-	//		int column = 0;
-	//		int row = 0;
-	//		column = randClass.nextInt(7);
-	//		System.out.println("Random Column" + column);
-	//		for (int i = 0; i < 6; i++) {
-	//			if(gridTrack[i][column] != 0){
-	//				row = i-1;
-	//				break;
-	//			}
-	//			if(i==5){
-	//				row = 5;
-	//			}
-	//			gridTrack[row][column] = player;
-	//			System.out.println("Random Move" + row + "//" + column);
-	//			curColor = player2;
-	//			gameOver = checkGrid();
-	//
-	//			if(gameOver){
-	//				System.out.println(player + " Wins");
-	//			}else{
-	//				if(player==1){
-	//					player = 2;
-	//				}else{
-	//					player = 1;
-	//				}   
-	//			}
-	//
-	//			repaint();
-	//
-	//
-	//		}
-	//
-	//
-	//	}
 
 	public Boolean fillTile(int player_in){
 		//		System.out.println("Cell Click");
@@ -163,6 +103,11 @@ public class Cell extends JPanel{
 			repaint();
 		}
 
+	}
+	
+	public void reset(){
+		occupied = false;
+		curColor = Color.WHITE;;
 	}
 
 

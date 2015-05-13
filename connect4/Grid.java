@@ -3,6 +3,7 @@ package connect4;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -12,11 +13,14 @@ public class Grid extends JPanel implements MouseListener {
 	private static int[][] gridTrack = new int[6][7];
 	private static int player = 1;
 	private static Boolean gameOver = false;
-	public Boolean randPlayer;
+	public Boolean randPlayer = false;
 	private static ArrayList<Cell> cellArray = new ArrayList<Cell>();
+	private PlayConnect UIInstance;
 
-	public Grid(){
-		//		setPreferredSize(new Dimension(600,700));;
+	public Grid(PlayConnect UIInstance_in){
+
+		UIInstance = UIInstance_in;
+
 		setLayout(new GridLayout(6, 7));
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
@@ -39,7 +43,7 @@ public class Grid extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if(!gameOver){
-			System.out.println("-----Grid Click------");
+			//			System.out.println("-----Grid Click------");
 			Cell clickedCell;
 			clickedCell = (Cell)e.getSource();
 			Boolean filled = false;
@@ -51,6 +55,11 @@ public class Grid extends JPanel implements MouseListener {
 					player = 2;
 				}else{
 					player = 1;
+				}
+
+
+				if(randPlayer){
+					randomMove();
 				}
 			}
 
@@ -111,6 +120,7 @@ public class Grid extends JPanel implements MouseListener {
 
 				if(counter==4){
 					win = true;
+					UIInstance.printWin(player);
 					return win;
 				}
 
@@ -119,24 +129,25 @@ public class Grid extends JPanel implements MouseListener {
 		}
 
 		//     Vertical Check 
-			counter = 0;
-			for (int j = 0; j < 7; j++) {
-				for (int i = 0; i < 6; i++) {
-					if(gridCopy[i][j]==player){
-						counter++;
-					} else{
-						counter = 0;
-					}
+		counter = 0;
+		for (int j = 0; j < 7; j++) {
+			for (int i = 0; i < 6; i++) {
+				if(gridCopy[i][j]==player){
+					counter++;
+				} else{
+					counter = 0;
+				}
 
-					if(counter==4){
-						win = true;
-						return win;
-					}
-
+				if(counter==4){
+					win = true;
+					UIInstance.printWin(player);
+					return win;
 				}
 
 			}
-		
+
+		}
+
 
 
 		////    Diag Check 1 (\)
@@ -155,6 +166,7 @@ public class Grid extends JPanel implements MouseListener {
 
 					if(counter==4){
 						win = true;
+						UIInstance.printWin(player);
 						return win;
 					}
 
@@ -182,6 +194,7 @@ public class Grid extends JPanel implements MouseListener {
 
 					if(counter==4){
 						win = true;
+						UIInstance.printWin(player);
 						return win;
 					}
 
@@ -195,15 +208,75 @@ public class Grid extends JPanel implements MouseListener {
 
 		return win;
 	}
-	
+
 	public int printWin(){
 		if(gameOver){
 			return player;
-			
+
 		} else {
 			return 0;
 		}
+
+
+	}
+
+	private void randomMove(){
+		Random randClass = new Random();
+		int column = 0;
+		int row = 0;
+		Cell randCell = null;
+		Boolean filled = false;
+
+		if(!gameOver){
+			column = randClass.nextInt(7);
+			for (int i = 0; i < 6; i++) {
+				if(gridTrack[i][column] != 0){
+					row = i-1;
+					break;
+				}
+			}
+			if(row==0){
+				row = 5;
+			}
+			gridTrack[row][column] = player;
+			System.out.println("Random Move" + row + "//" + column);
+			randCell = gridUI[row][column];
+			filled = randCell.fillTile(player);
+			if(filled){
+				gameOver = checkGrid();
+
+				if(gameOver){
+					System.out.println(player + " Wins");
+				}else{
+					if(player==1){
+						player = 2;
+					}else{
+						player = 1;
+					}   
+				}
+
+				repaint();
+
+			}	
+		}
+
+	}
+
+	public void resetGrid(){
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+
+				gridUI[i][j].reset();
+				gridTrack[i][j] = 0;
+				gameOver = false;
+				randPlayer = false;
+
+
+			}
+		}
 		
-		
+		player = 1;
+		repaint();
+
 	}
 }
