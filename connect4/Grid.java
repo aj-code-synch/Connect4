@@ -15,6 +15,7 @@ public class Grid extends JPanel implements MouseListener {
 	private static int AI = 2;
 	private static int Human = 1;
 	private static Boolean gameOver = false;
+	private static Boolean noMoreMoves = false;
 	public Boolean randPlayer = false;
 	private static ArrayList<Cell> cellArray = new ArrayList<Cell>();
 	private PlayConnect UIInstance;
@@ -290,24 +291,36 @@ public class Grid extends JPanel implements MouseListener {
 		int x = 0;
 		int y = 0;
 
-		return MaxMove(gridCopy, maxVal, minVal, 3);
-		
+		return maxMove(gridCopy, maxVal, minVal, 3);
+
 
 
 	}
 
-	private Move MaxMove(int[][] gridCopy, int alpha, int beta, int depth){
+	private Move maxMove(int[][] gridCopy, int alpha, int beta, int depth){
 		int gameValue = 0;
-		
-       Move maxMove = null,
-    		tempMove = null;
-       
-		if(depth==3){
+
+		Move maxMove = null,
+				tempMove = null;
+
+		if(depth==0 || noMoreMoves){
 
 		} else {
 			for (int i = 0; i < 7; i++) {
-				tempMove = new Move(gridCopy, i, AI);
-				
+				try {
+					tempMove = new Move(gridCopy, i, AI);
+					minMove(tempMove.newGrid, alpha, beta, depth-1 );
+				} catch (MoveException e) {
+					// TODO: handle exception
+					if(i==6){
+						noMoreMoves = true;
+						break;	
+					}
+
+
+				}
+
+
 			}
 		}
 
@@ -319,10 +332,45 @@ public class Grid extends JPanel implements MouseListener {
 
 	}
 
-	private Move MinMove(int[][] gridCopy){
-		int gameValue = 0;
-		Move minMove = null;
+	private Move minMove(int[][] gridCopy, int alpha, int beta, int depth){
+
+		Move minMove = null,
+				tempMove;
+		if(depth==0 || noMoreMoves){
+//			int moveValue = moveValue(gridCopy, Human);
+		} else {
+			for (int i = 0; i < 7; i++) {
+				try {
+					tempMove = new Move(gridCopy, i, Human);
+					maxMove(tempMove.newGrid, alpha, beta, depth-1 );
+					if(minMove == null) minMove = tempMove;
+					if(tempMove.moveValue(Human) >= minMove.moveValue(Human)){
+						minMove = tempMove;
+						alpha = minMove.moveValue(Human);
+					}
+				} catch (MoveException e) {
+					// TODO: handle exception
+					if(i==6){
+						noMoreMoves = true;
+						break;	
+					}
+
+
+				}
+
+
+			}
+			
+			if(beta>alpha) return null;
+		}
+
+
+
+
+
 		return minMove;
+
+
 
 
 
@@ -333,18 +381,23 @@ public class Grid extends JPanel implements MouseListener {
 
 		public int[][] newGrid = new int[6][7];
 		public int moveX = 9,
-				   moveY;
+				moveY;
 
 
 
-		Move(int[][] CurrGrid, int y, int player) {
+		Move(int[][] CurrGrid, int y, int player) throws MoveException{
 
 			newGrid = CurrGrid;
-			for (int i = 0; i < 6 ; i++) {
+			int i = 0;
+			for (i = 0; i < 6 ; i++) {
 				if(CurrGrid[i][y] != 0){
 					moveX = i-1;
 					break;
 				}
+			}
+
+			if(i<0){
+				throw new MoveException("No More Moves");
 			}
 
 			if(moveX==9){
@@ -356,9 +409,121 @@ public class Grid extends JPanel implements MouseListener {
 
 
 		}
+		
+		public int moveValue(int player_in){
+
+			int count = 0,
+					tempcount = 0,
+					currcount = 0;
+
+			//		Horizontal Count 
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 7; j++) {
+					if(newGrid[i][j]==player_in){
+						tempcount++;
+					} else{
+						if(currcount<tempcount){
+							currcount = tempcount;
+						}
+						tempcount = 0;
+					}
+
+
+				}
+
+			}
+
+			//     Vertical Check 
+			tempcount = 0;
+			for (int j = 0; j < 7; j++) {
+				for (int i = 0; i < 6; i++) {
+					if(newGrid[i][j]==player){
+						tempcount++;
+					} else{
+						if(currcount<tempcount){
+							currcount = tempcount;
+						}
+						tempcount = 0;
+					}
+
+				}
+
+			}
+
+
+
+			////    Diag Check 1 (\)
+			tempcount = 0;
+			for (int j = 0; j < 4; j++) {
+				for (int i = 0; i < 3; i++) {
+
+					for (int k = 0; k < 4; k++) {
+
+						if(newGrid[i][j]==player){
+							tempcount++;
+						} else{
+							if(currcount<tempcount){
+								currcount = tempcount;
+							}
+							tempcount = 0;
+						}
+
+
+					}
+
+
+				}
+			}
+
+
+			////    Diag Check 2 (/)
+			tempcount = 0;
+			for (int j = 3; j < 7; j++) {
+				for (int i = 0; i < 3; i++) {
+
+					for (int k = 0; k < 4; k++) {
+
+						if(newGrid[i][j]==player){
+							tempcount++;
+						} else{
+							if(currcount<tempcount){
+								currcount = tempcount;
+							}
+							tempcount = 0;
+						}
+
+
+					}
+
+
+				}
+			}
+
+
+
+			return currcount;
+
+		}
 
 	}
 
+	public class MoveException extends Exception{
+		String exception;
+		public MoveException(){
+			super();
+			exception = "NoMoreMoves";
+		}
 
+		public MoveException(String exp){
+			super(exp);
+			this.exception = exp;
+		}
+
+		public String getException(){
+			return this.exception;
+		}
+	}
+
+	
 
 }
