@@ -105,6 +105,7 @@ public class PlayConnect{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			gridPanel.randPlayer = true;
+			gridPanel.simpleMinimax = false;
 			gridPanel.resetGrid();
 			System.out.println("Random Player");
 
@@ -147,6 +148,20 @@ public class PlayConnect{
 	}
 
 
+	public class MinMaxSimpleMove implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			gridPanel.randPlayer = false;
+			gridPanel.simpleMinimax = true;
+			gridPanel.resetGrid();
+			System.out.println("SimpleMinMax Player");
+
+		}
+
+
+	}
 
 
 }

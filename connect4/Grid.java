@@ -17,6 +17,7 @@ public class Grid extends JPanel implements MouseListener {
 	private static Boolean gameOver = false;
 	private static Boolean noMoreMoves = false;
 	public Boolean randPlayer = false;
+	public Boolean simpleMinimax = false;
 	private static ArrayList<Cell> cellArray = new ArrayList<Cell>();
 	private PlayConnect UIInstance;
 
@@ -63,6 +64,10 @@ public class Grid extends JPanel implements MouseListener {
 
 				if(randPlayer){
 					randomMove();
+				}
+				
+				if(simpleMinimax){
+					
 				}
 			}
 
@@ -283,247 +288,21 @@ public class Grid extends JPanel implements MouseListener {
 
 	}
 
-	private Move minimax(int[][] gridCopy){
-		ArrayList<Integer> xAndy = new ArrayList<Integer>();
-		Move nextMove = null;
-		int maxVal = 10000;
-		int minVal =-10000;
-		int x = 0;
-		int y = 0;
-
-		return maxMove(gridCopy, maxVal, minVal, 3);
 
 
-
+	public static int getAI(){
+		return AI;
 	}
 
-	private Move maxMove(int[][] gridCopy, int alpha, int beta, int depth){
-		int gameValue = 0;
-
-		Move maxMove = null,
-				tempMove = null;
-
-		if(depth==0 || noMoreMoves){
-
-		} else {
-			for (int i = 0; i < 7; i++) {
-				try {
-					tempMove = new Move(gridCopy, i, AI);
-					minMove(tempMove.newGrid, alpha, beta, depth-1 );
-				} catch (MoveException e) {
-					// TODO: handle exception
-					if(i==6){
-						noMoreMoves = true;
-						break;	
-					}
-
-
-				}
-
-
-			}
-		}
-
-
-
-		return maxMove;
-
-
-
+	public static int getHuman(){
+		return Human;
 	}
-
-	private Move minMove(int[][] gridCopy, int alpha, int beta, int depth){
-
-		Move minMove = null,
-				tempMove;
-		if(depth==0 || noMoreMoves){
-//			int moveValue = moveValue(gridCopy, Human);
-		} else {
-			for (int i = 0; i < 7; i++) {
-				try {
-					tempMove = new Move(gridCopy, i, Human);
-					maxMove(tempMove.newGrid, alpha, beta, depth-1 );
-					if(minMove == null) minMove = tempMove;
-					if(tempMove.moveValue(Human) >= minMove.moveValue(Human)){
-						minMove = tempMove;
-						alpha = minMove.moveValue(Human);
-					}
-				} catch (MoveException e) {
-					// TODO: handle exception
-					if(i==6){
-						noMoreMoves = true;
-						break;	
-					}
-
-
-				}
-
-
-			}
-			
-			if(beta>alpha) return null;
-		}
-
-
-
-
-
-		return minMove;
-
-
-
-
-
-	}
-
-
-	public class Move{
-
-		public int[][] newGrid = new int[6][7];
-		public int moveX = 9,
-				moveY;
-
-
-
-		Move(int[][] CurrGrid, int y, int player) throws MoveException{
-
-			newGrid = CurrGrid;
-			int i = 0;
-			for (i = 0; i < 6 ; i++) {
-				if(CurrGrid[i][y] != 0){
-					moveX = i-1;
-					break;
-				}
-			}
-
-			if(i<0){
-				throw new MoveException("No More Moves");
-			}
-
-			if(moveX==9){
-				moveX = 5;
-			}
-
-			moveY = y;
-			newGrid[moveX][y] = player;
-
-
-		}
-		
-		public int moveValue(int player_in){
-
-			int count = 0,
-					tempcount = 0,
-					currcount = 0;
-
-			//		Horizontal Count 
-			for (int i = 0; i < 6; i++) {
-				for (int j = 0; j < 7; j++) {
-					if(newGrid[i][j]==player_in){
-						tempcount++;
-					} else{
-						if(currcount<tempcount){
-							currcount = tempcount;
-						}
-						tempcount = 0;
-					}
-
-
-				}
-
-			}
-
-			//     Vertical Check 
-			tempcount = 0;
-			for (int j = 0; j < 7; j++) {
-				for (int i = 0; i < 6; i++) {
-					if(newGrid[i][j]==player){
-						tempcount++;
-					} else{
-						if(currcount<tempcount){
-							currcount = tempcount;
-						}
-						tempcount = 0;
-					}
-
-				}
-
-			}
-
-
-
-			////    Diag Check 1 (\)
-			tempcount = 0;
-			for (int j = 0; j < 4; j++) {
-				for (int i = 0; i < 3; i++) {
-
-					for (int k = 0; k < 4; k++) {
-
-						if(newGrid[i][j]==player){
-							tempcount++;
-						} else{
-							if(currcount<tempcount){
-								currcount = tempcount;
-							}
-							tempcount = 0;
-						}
-
-
-					}
-
-
-				}
-			}
-
-
-			////    Diag Check 2 (/)
-			tempcount = 0;
-			for (int j = 3; j < 7; j++) {
-				for (int i = 0; i < 3; i++) {
-
-					for (int k = 0; k < 4; k++) {
-
-						if(newGrid[i][j]==player){
-							tempcount++;
-						} else{
-							if(currcount<tempcount){
-								currcount = tempcount;
-							}
-							tempcount = 0;
-						}
-
-
-					}
-
-
-				}
-			}
-
-
-
-			return currcount;
-
-		}
-
-	}
-
-	public class MoveException extends Exception{
-		String exception;
-		public MoveException(){
-			super();
-			exception = "NoMoreMoves";
-		}
-
-		public MoveException(String exp){
-			super(exp);
-			this.exception = exp;
-		}
-
-		public String getException(){
-			return this.exception;
-		}
-	}
-
 	
+	private void SimpleMinMaxMove(){
+		
+		Move thisMove = SimpleMinMax.minimax(gridTrack);
+	}
+
+
 
 }
