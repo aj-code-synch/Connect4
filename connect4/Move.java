@@ -12,6 +12,8 @@ public class Move {
 
 
 	public Move(int[][] CurrGrid, int y, int player_in) throws Exception{
+		
+		
 
 		newGrid = CurrGrid;
 		int i = 0;
@@ -34,6 +36,8 @@ public class Move {
 		newGrid[moveX][y] = player_in;
 
 		this.moveValue(player_in);
+		
+		System.out.println("Generating Move" + player_in + "|" + moveX + "|" + moveY);
 	}
 
 	private void moveValue(int player_in){

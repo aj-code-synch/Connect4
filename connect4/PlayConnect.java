@@ -31,9 +31,11 @@ public class PlayConnect{
 	private Font messFont;
 
 	private JButton randButton,
+	                simpleMinMaxButton,
 	                resetButton;
 	private RandomMoves randButtonHandle;
 	private ResetGrid resetHandle;
+	private MiniMaxSimpleMove miniMaxHandle;
 
 
 	public static void main(String[] args) {
@@ -89,7 +91,16 @@ public class PlayConnect{
 		buttonPanel.add(randButton);
 		randButtonHandle = new RandomMoves();
 		randButton.addActionListener(randButtonHandle);
+		
+		simpleMinMaxButton = new JButton("Simple MinMax");
+		buttonPanel.add(simpleMinMaxButton);
+		miniMaxHandle = new MiniMaxSimpleMove();
+		simpleMinMaxButton.addActionListener(miniMaxHandle);
+		
+		
 		basePanel.add(buttonPanel,BorderLayout.LINE_END);
+		
+		
 
 
 		mainFrame.setVisible(true);
@@ -148,7 +159,7 @@ public class PlayConnect{
 	}
 
 
-	public class MinMaxSimpleMove implements ActionListener{
+	public class MiniMaxSimpleMove implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -156,7 +167,7 @@ public class PlayConnect{
 			gridPanel.randPlayer = false;
 			gridPanel.simpleMinimax = true;
 			gridPanel.resetGrid();
-			System.out.println("SimpleMinMax Player");
+			System.out.println("SimpleMiniMax Player");
 
 		}
 

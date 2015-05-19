@@ -67,7 +67,7 @@ public class Grid extends JPanel implements MouseListener {
 				}
 				
 				if(simpleMinimax){
-					
+					simpleMiniMaxMove();
 				}
 			}
 
@@ -298,9 +298,29 @@ public class Grid extends JPanel implements MouseListener {
 		return Human;
 	}
 	
-	private void SimpleMinMaxMove(){
+	private void simpleMiniMaxMove(){
 		
-		Move thisMove = SimpleMinMax.minimax(gridTrack);
+		SimpleMiniMax minimax = new SimpleMiniMax();
+		Move thisMove = minimax.minimax(gridTrack);
+		System.out.println("MinMax Cell --" + thisMove.moveX + "||" + thisMove.moveY);
+		Cell minimaxCell = gridUI[thisMove.moveX][thisMove.moveY];
+		Boolean filled = minimaxCell.fillTile(player);
+		if(filled){
+			gameOver = checkGrid();
+
+			if(gameOver){
+				System.out.println(player + " Wins");
+			}else{
+				if(player==1){
+					player = 2;
+				}else{
+					player = 1;
+				}   
+			}
+
+			repaint();
+
+		}	
 	}
 
 

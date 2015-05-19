@@ -2,24 +2,20 @@ package connect4;
 
 import java.util.ArrayList;
 
-public class SimpleMinMax {
+public class SimpleMiniMax {
 	
 private static Boolean noMoreMoves = false;
-private int[][] grid = new int[6][7];
 
-	public static Move minimax(int[][] gridCopy){
-		ArrayList<Integer> xAndy = new ArrayList<Integer>();
+
+	public Move minimax(int[][] gridCopy_minimax){
 		Move nextMove = null;
-		int maxVal = 10000;
-		int minVal =-10000;
-		int x = 0;
-		int y = 0;
         noMoreMoves = false;
-		return maxMove(gridCopy, 3);
+        int[][] gridCopy = gridCopy_minimax;
+		return maxMove(gridCopy, 1);
 
 	}
 
-	private static Move maxMove(int[][] gridCopy, int depth){
+	private Move maxMove(int[][] gridCopy_max, int depth){
 		int gameValue = 0;
 
 		Move maxMove = null,
@@ -31,10 +27,12 @@ private int[][] grid = new int[6][7];
 		} else {
 			for (int i = 0; i < 7; i++) {
 				try {
-					thisMove = new Move(gridCopy, i, Grid.getAI());
+					thisMove = new Move(gridCopy_max, i, Grid.getAI());
 					tempMove = minMove(thisMove.newGrid, depth-1 );
-					if (maxMove==null && tempMove != null) maxMove = tempMove;
 					if(tempMove==null) tempMove = thisMove;
+					
+					if (maxMove==null && tempMove != null) maxMove = tempMove;
+					
 					if(tempMove != null && tempMove.moveValue >= maxMove.moveValue ){
 						maxMove = tempMove;
 					}
@@ -56,7 +54,7 @@ private int[][] grid = new int[6][7];
 
 	}
 	
-	private static Move minMove(int[][] gridCopy, int depth){
+	private Move minMove(int[][] gridCopy_min, int depth){
 
 		Move minMove = null,
 				tempMove = null,
@@ -67,10 +65,10 @@ private int[][] grid = new int[6][7];
 		} else {
 			for (int i = 0; i < 7; i++) {
 				try {
-					thisMove = new Move(gridCopy, i, Grid.getHuman());
+					thisMove = new Move(gridCopy_min, i, Grid.getHuman());
 					tempMove = maxMove(thisMove.newGrid, depth-1 );
-					if(minMove == null && tempMove != null) minMove = tempMove;
 					if(tempMove==null) tempMove = thisMove;
+					if(minMove == null && tempMove != null) minMove = tempMove;
 					if(tempMove.moveValue <= minMove.moveValue) minMove = tempMove;
 				
 				} catch (Exception e) {
@@ -88,9 +86,6 @@ private int[][] grid = new int[6][7];
 
 			
 		}
-
-
-
 
 
 		return minMove;
