@@ -61,14 +61,16 @@ public class Grid extends JPanel implements MouseListener {
 					player = 1;
 				}
 
+				if(!gameOver){
+					if(randPlayer){
+						randomMove();
+					}
 
-				if(randPlayer){
-					randomMove();
+					if(simpleMinimax){
+						simpleMiniMaxMove();
+					}
 				}
-				
-				if(simpleMinimax){
-					simpleMiniMaxMove();
-				}
+
 			}
 
 
@@ -246,11 +248,12 @@ public class Grid extends JPanel implements MouseListener {
 			if(row==0){
 				row = 5;
 			}
-			gridTrack[row][column] = player;
+
 			System.out.println("Random Move" + row + "//" + column);
 			randCell = gridUI[row][column];
 			filled = randCell.fillTile(player);
 			if(filled){
+				gridTrack[row][column] = player;
 				gameOver = checkGrid();
 
 				if(gameOver){
@@ -297,15 +300,17 @@ public class Grid extends JPanel implements MouseListener {
 	public static int getHuman(){
 		return Human;
 	}
-	
+
 	private void simpleMiniMaxMove(){
-		
+
 		SimpleMiniMax minimax = new SimpleMiniMax();
 		Move thisMove = minimax.minimax(gridTrack);
 		System.out.println("MinMax Cell --" + thisMove.moveX + "||" + thisMove.moveY);
 		Cell minimaxCell = gridUI[thisMove.moveX][thisMove.moveY];
+
 		Boolean filled = minimaxCell.fillTile(player);
 		if(filled){
+			gridTrack[thisMove.moveX][thisMove.moveY] = player;
 			gameOver = checkGrid();
 
 			if(gameOver){

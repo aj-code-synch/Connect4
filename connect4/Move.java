@@ -12,10 +12,16 @@ public class Move {
 
 
 	public Move(int[][] CurrGrid, int y, int player_in) throws Exception{
-		
-		
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				newGrid[i][j] = CurrGrid[i][j];
 
-		newGrid = CurrGrid;
+			}
+
+		}
+
+
+
 		int i = 0;
 		for (i = 0; i < 6 ; i++) {
 			if(CurrGrid[i][y] != 0){
@@ -36,8 +42,9 @@ public class Move {
 		newGrid[moveX][y] = player_in;
 
 		this.moveValue(player_in);
-		
-		System.out.println("Generating Move" + player_in + "|" + moveX + "|" + moveY);
+		++SimpleMiniMax.moveCount;
+
+		System.out.println("Generating Move|" +SimpleMiniMax.moveCount + "|" +player_in + "|" + moveX + "|" + moveY + "|" + moveValue);
 	}
 
 	private void moveValue(int player_in){
@@ -78,6 +85,10 @@ public class Move {
 
 			}
 
+			if(currcount<tempcount){
+				currcount = tempcount;
+			}
+
 		}
 
 
@@ -103,6 +114,10 @@ public class Move {
 
 
 			}
+
+			if(currcount<tempcount){
+				currcount = tempcount;
+			}
 		}
 
 
@@ -127,18 +142,16 @@ public class Move {
 
 
 			}
+			
+			if(currcount<tempcount){
+				currcount = tempcount;
+			}
 		}
 
 		moveValue = currcount;
 
-		
+
 
 	}
-
-
-
-	
-
-
 
 }
