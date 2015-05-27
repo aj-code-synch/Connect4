@@ -19,7 +19,7 @@ public class SimpleMiniMax {
 
 			}
 		}
-		return maxMove(gridCopy, 3);
+		return maxMove(gridCopy, 2);
 
 	}
 

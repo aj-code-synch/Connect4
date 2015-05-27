@@ -6,7 +6,8 @@ public class Move {
 	public int[][] newGrid = new int[6][7];
 	public int moveX = 9,
 			moveY,
-			moveValue;
+			moveValue,
+			movePlayer;
 
 
 
@@ -43,8 +44,14 @@ public class Move {
 
 		this.moveValue(player_in);
 		++SimpleMiniMax.moveCount;
+		
+		movePlayer = player_in;
 
-		System.out.println("Generating Move|" +SimpleMiniMax.moveCount + "|" +player_in + "|" + moveX + "|" + moveY + "|" + moveValue);
+		System.out.println("Generating Move|" +SimpleMiniMax.moveCount + 
+				           "|Player-" +player_in + 
+				           "|MoveX-" + moveX + 
+				           "|MoveY-" + moveY + 
+				           "|Move Value-" + moveValue);
 	}
 
 	private void moveValue(int player_in){
@@ -148,7 +155,12 @@ public class Move {
 			}
 		}
 
-		moveValue = currcount;
+		if(player_in == Grid.getAI()){
+			moveValue = currcount;	
+		} else {
+			moveValue = 0 - currcount;
+		}
+		
 
 
 
