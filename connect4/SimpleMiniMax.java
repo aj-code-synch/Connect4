@@ -6,6 +6,7 @@ public class SimpleMiniMax {
 
 	private static Boolean noMoreMoves = false;
 	public static int moveCount = 0;
+	public static int searchdepth = 3;
 
 
 	public Move minimax(int[][] gridCopy_minimax){
@@ -19,7 +20,7 @@ public class SimpleMiniMax {
 
 			}
 		}
-		return maxMove(gridCopy, 2);
+		return maxMove(gridCopy, searchdepth);
 
 	}
 

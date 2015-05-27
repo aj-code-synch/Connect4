@@ -44,14 +44,14 @@ public class Move {
 
 		this.moveValue(player_in);
 		++SimpleMiniMax.moveCount;
-		
+
 		movePlayer = player_in;
 
 		System.out.println("Generating Move|" +SimpleMiniMax.moveCount + 
-				           "|Player-" +player_in + 
-				           "|MoveX-" + moveX + 
-				           "|MoveY-" + moveY + 
-				           "|Move Value-" + moveValue);
+				"|Player :" +player_in + 
+				"|MoveX :" + moveX + 
+				"|MoveY :" + moveY + 
+				"|Move Value : " + moveValue);
 	}
 
 	private void moveValue(int player_in){
@@ -149,7 +149,7 @@ public class Move {
 
 
 			}
-			
+
 			if(currcount<tempcount){
 				currcount = tempcount;
 			}
@@ -160,7 +160,7 @@ public class Move {
 		} else {
 			moveValue = 0 - currcount;
 		}
-		
+
 
 
 
