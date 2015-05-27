@@ -67,6 +67,12 @@ public class SimpleMiniMax {
 			}
 		}
 
+
+		System.out.println("maxMove Return|" +
+				"|Player :" + maxMove.movePlayer +  
+				"|MoveX :" + maxMove.moveX + 
+				"|MoveY :" + maxMove.moveY + 
+				"|Move Value : " + maxMove.moveValue);
 		return maxMove;
 
 	}
@@ -113,6 +119,11 @@ public class SimpleMiniMax {
 
 		}
 
+		System.out.println("maxMove Return|" +
+				"|Player :" + minMove.movePlayer +  
+				"|MoveX :" + minMove.moveX + 
+				"|MoveY :" + minMove.moveY + 
+				"|Move Value : " + minMove.moveValue);
 
 		return minMove;
 
