@@ -20,11 +20,14 @@ public class SimpleMiniMax {
 
 			}
 		}
-		return maxMove(gridCopy, searchdepth);
+		
+		Move tempMove = new Move(gridCopy, Grid.getHuman());
+		Move.lastMove = tempMove;
+		return maxMove(tempMove, searchdepth);
 
 	}
 
-	private Move maxMove(int[][] gridCopy_max, int depth){
+	private Move maxMove(Move move_in, int depth){
 		int gameValue = 0;
 
 		Move maxMove = null,
@@ -34,24 +37,23 @@ public class SimpleMiniMax {
 		int[][] gridCopy = new int[6][7];
 		for (int i = 0; i < gridCopy.length; i++) {
 			for (int j = 0; j < gridCopy[0].length; j++) {
-				gridCopy[i][j] = gridCopy_max[i][j];
+				gridCopy[i][j] = move_in.newGrid[i][j];
 
 			}
 		}
 
 		if(depth==0 || noMoreMoves){
-			return null;
+			return move_in;
 		} else {
 			for (int i = 0; i < 7; i++) {
 				try {
 					thisMove = new Move(gridCopy, i, Grid.getAI());
-					tempMove = minMove(thisMove.newGrid, depth-1 );
-					if(tempMove==null) tempMove = thisMove;
-
+					tempMove = minMove(thisMove, depth-1 );
+			
 					if (maxMove==null && tempMove != null) maxMove = tempMove;
 
 					if(tempMove != null && tempMove.moveValue >= maxMove.moveValue ){
-						maxMove = tempMove;
+						maxMove = thisMove;
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -72,12 +74,13 @@ public class SimpleMiniMax {
 				"|Player :" + maxMove.movePlayer +  
 				"|MoveX :" + maxMove.moveX + 
 				"|MoveY :" + maxMove.moveY + 
-				"|Move Value : " + maxMove.moveValue);
+				"|Move Value : " + maxMove.moveValue +
+				"|Depth " + depth);
 		return maxMove;
 
 	}
 
-	private Move minMove(int[][] gridCopy_min, int depth){
+	private Move minMove(Move move_in, int depth){
 
 		Move minMove = null,
 				tempMove = null,
@@ -86,22 +89,22 @@ public class SimpleMiniMax {
 		int[][] gridCopy = new int[6][7];
 		for (int i = 0; i < gridCopy.length; i++) {
 			for (int j = 0; j < gridCopy[0].length; j++) {
-				gridCopy[i][j] = gridCopy_min[i][j];
+				gridCopy[i][j] = move_in.newGrid[i][j];
 
 			}
 		}
 
 		if(depth==0 || noMoreMoves){
 			//			int moveValue = moveValue(gridCopy, Human);
-			return null;
+			return move_in;
 		} else {
 			for (int i = 0; i < 7; i++) {
 				try {
 					thisMove = new Move(gridCopy, i, Grid.getHuman());
-					tempMove = maxMove(thisMove.newGrid, depth-1 );
-					if(tempMove==null) tempMove = thisMove;
+					tempMove = maxMove(thisMove, depth-1 );
+					
 					if(minMove == null && tempMove != null) minMove = tempMove;
-					if(tempMove.moveValue <= minMove.moveValue) minMove = tempMove;
+					if(tempMove.moveValue <= minMove.moveValue) minMove = thisMove;
 
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -119,11 +122,12 @@ public class SimpleMiniMax {
 
 		}
 
-		System.out.println("maxMove Return|" +
+		System.out.println("minMove Return|" +
 				"|Player :" + minMove.movePlayer +  
 				"|MoveX :" + minMove.moveX + 
 				"|MoveY :" + minMove.moveY + 
-				"|Move Value : " + minMove.moveValue);
+				"|Move Value : " + minMove.moveValue+
+				"|Depth " + depth);
 
 		return minMove;
 

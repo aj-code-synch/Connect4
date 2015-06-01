@@ -67,7 +67,7 @@ public class Grid extends JPanel implements MouseListener {
 					}
 
 					if(simpleMinimax){
-						simpleMiniMaxMove();
+						simpleMiniMaxMove(clickedCell);
 					}
 				}
 
@@ -301,9 +301,14 @@ public class Grid extends JPanel implements MouseListener {
 		return Human;
 	}
 
-	private void simpleMiniMaxMove(){
+	private void simpleMiniMaxMove(Cell clickedCell){
 
+		
+		
+		Move.lastX = clickedCell.row;
+		Move.lastY = clickedCell.column;
 		SimpleMiniMax minimax = new SimpleMiniMax();
+		SimpleMiniMax.searchdepth = 3;
 		Move thisMove = minimax.minimax(gridTrack);
 		System.out.println("MinMax Cell --" + thisMove.moveX + "||" + thisMove.moveY);
 		Cell minimaxCell = gridUI[thisMove.moveX][thisMove.moveY];
