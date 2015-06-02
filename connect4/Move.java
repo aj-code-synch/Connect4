@@ -7,12 +7,14 @@ public class Move {
 	public int moveX = 9,
 			moveY,
 			moveValue,
-			movePlayer;
+			movePlayer,
+			moveAICount,
+			moveHumanCount;
 
-	
-  public static Move lastMove;
-  public static int lastX,
-                    lastY;
+
+	public static Move lastMove;
+	public static int lastX,
+	lastY;
 
 
 	public Move(int[][] CurrGrid, int y, int player_in) throws Exception{
@@ -50,13 +52,13 @@ public class Move {
 
 		movePlayer = player_in;
 
-//		System.out.println("Generating Move|" +SimpleMiniMax.moveCount + 
-//				"|Player :" +player_in + 
-//				"|MoveX :" + moveX + 
-//				"|MoveY :" + moveY + 
-//				"|Move Value : " + moveValue);
+		//		System.out.println("Generating Move|" +SimpleMiniMax.moveCount + 
+		//				"|Player :" +player_in + 
+		//				"|MoveX :" + moveX + 
+		//				"|MoveY :" + moveY + 
+		//				"|Move Value : " + moveValue);
 	}
-	
+
 	public Move(int[][] gridCopy, int player_in){
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
@@ -65,7 +67,7 @@ public class Move {
 			}
 
 		}
-		
+
 		this.moveValue(player_in);
 		this.moveX = lastX;
 		this.moveY = lastY;
@@ -74,45 +76,80 @@ public class Move {
 	}
 
 	private void moveValue(int player_in){
+		
 
 		int count = 0,
-				tempcount = 0,
-				currcount = 0;
+			tempcount = 0,
+			currcount = 0,
+			humanCount = 0,
+			tempHuman = 0,
+			AICount = 0,
+			tempAI = 0;
 
 		//		Horizontal Count 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
-				if(newGrid[i][j]==player_in){
-					tempcount++;
-				} else{
-					if(currcount<tempcount){
-						currcount = tempcount;
+
+				if(newGrid[i][j]==Grid.getAI()){
+					tempAI++;
+					if(humanCount<=tempHuman) {
+						humanCount = tempHuman;
+						tempHuman = 0;
 					}
-					tempcount = 0;
+				} else if(newGrid[i][j]==Grid.getHuman()){
+					tempHuman++;
+					if(AICount<=tempAI){
+						AICount = tempAI;
+						tempAI = 0;
+					}
+
 				}
 
 
+			}
+
+			if(humanCount<=tempHuman) {
+				humanCount = tempHuman;
+				tempHuman = 0;
+			}
+
+			if(AICount<=tempAI){
+				AICount = tempAI;
+				tempAI = 0;
 			}
 
 		}
 
 		//     Vertical Check 
-		tempcount = 0;
+		tempAI = tempHuman = 0;
 		for (int j = 0; j < 7; j++) {
 			for (int i = 0; i < 6; i++) {
-				if(newGrid[i][j]==player_in){
-					tempcount++;
-				} else{
-					if(currcount<tempcount){
-						currcount = tempcount;
+				if(newGrid[i][j]==Grid.getAI()){
+					tempAI++;
+					if(humanCount<=tempHuman) {
+						humanCount = tempHuman;
+						tempHuman = 0;
 					}
-					tempcount = 0;
+				} else if(newGrid[i][j]==Grid.getHuman()){
+					tempHuman++;
+					if(AICount<=tempAI){
+						AICount = tempAI;
+						tempAI = 0;
+					}
+
 				}
+
 
 			}
 
-			if(currcount<tempcount){
-				currcount = tempcount;
+			if(humanCount<=tempHuman) {
+				humanCount = tempHuman;
+				tempHuman = 0;
+			}
+
+			if(AICount<=tempAI){
+				AICount = tempAI;
+				tempAI = 0;
 			}
 
 		}
@@ -120,80 +157,135 @@ public class Move {
 
 
 		////    Diag Check 1 (\)
-		tempcount = 0;
+		tempAI = tempHuman = 0;
 		for (int j = 0; j < 4; j++) {
 			for (int i = 0; i < 3; i++) {
 
 				for (int k = 0; k < 4; k++) {
 
-					if(newGrid[i][j]==player_in){
-						tempcount++;
-					} else{
-						if(currcount<tempcount){
-							currcount = tempcount;
+					if(newGrid[k+i][j+k]==Grid.getAI()){
+						tempAI++;
+						if(humanCount<=tempHuman) {
+							humanCount = tempHuman;
+							tempHuman = 0;
 						}
-						tempcount = 0;
+					} else if(newGrid[i][j]==Grid.getHuman()){
+						tempHuman++;
+						if(AICount<=tempAI){
+							AICount = tempAI;
+							tempAI = 0;
+						}
+
 					}
 
 
 				}
 
+				if(humanCount<=tempHuman) {
+					humanCount = tempHuman;
+					tempHuman = 0;
+				}
+
+				if(AICount<=tempAI){
+					AICount = tempAI;
+					tempAI = 0;
+				}
+
 
 			}
 
-			if(currcount<tempcount){
-				currcount = tempcount;
-			}
+
 		}
 
 
 		////    Diag Check 2 (/)
-		tempcount = 0;
+		tempAI = tempHuman = 0;
 		for (int j = 3; j < 7; j++) {
 			for (int i = 0; i < 3; i++) {
 
 				for (int k = 0; k < 4; k++) {
 
-					if(newGrid[i][j]==player_in){
-						tempcount++;
-					} else{
-						if(currcount<tempcount){
-							currcount = tempcount;
+					if(newGrid[k+i][j-k]==Grid.getAI()){
+						tempAI++;
+						if(humanCount<=tempHuman) {
+							humanCount = tempHuman;
+							tempHuman = 0;
 						}
-						tempcount = 0;
+					} else if(newGrid[i][j]==Grid.getHuman()){
+						tempHuman++;
+						if(AICount<=tempAI){
+							AICount = tempAI;
+							tempAI = 0;
+						}
+
 					}
 
 
 				}
 
+				if(humanCount<=tempHuman) {
+					humanCount = tempHuman;
+					tempHuman = 0;
+				}
+
+				if(AICount<=tempAI){
+					AICount = tempAI;
+					tempAI = 0;
+				}
+
 
 			}
 
-			if(currcount<tempcount){
-				currcount = tempcount;
+		}
+
+		
+		moveAICount = AICount;
+		moveHumanCount = humanCount;
+
+
+		
+		if(AICount == humanCount) {
+			if (player_in == Grid.getAI()) {
+				moveValue = 1;
+			}
+			else{
+				moveValue = -1;
 			}
 		}
-
-		if(player_in == Grid.getAI()){
-			moveValue = currcount;	
-		} else {
-			moveValue = 0 - currcount;
+		
+		
+		if(AICount > humanCount) {
+			if (player_in == Grid.getAI()) {
+				moveValue = AICount;
+			}
+			else{
+				moveValue = 0 - AICount;
+			}
 		}
-
-
-
+		
+		
+		if(AICount < humanCount) {
+			if (player_in == Grid.getAI()) {
+				moveValue = 0 - humanCount;
+			}
+			else{
+				moveValue = humanCount;
+			}
+		}
+		
+		
 
 	}
-	
+
 	public void print(){
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
-				
+
 				System.out.print(newGrid[i][j] + "\t");
-				
+
 			}
 			System.out.println("\n");
-			
+
 		}
 	}
 
