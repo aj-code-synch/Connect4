@@ -11,6 +11,7 @@ public class Grid extends JPanel implements MouseListener {
 
 	private Cell[][] gridUI = new Cell[6][7];
 	private static int[][] gridTrack = new int[6][7];
+	public static int[][] gridPrint = new int[6][7];
 	private static int player = 1;
 	private static int AI = 2;
 	private static int Human = 1;
@@ -54,6 +55,8 @@ public class Grid extends JPanel implements MouseListener {
 			filled = clickedCell.fillTile(player);
 			if(filled == true){
 				gridTrack[clickedCell.row][clickedCell.column] = player;
+				Cell.lastX = clickedCell.row;
+				Cell.lastY = clickedCell.column;
 				gameOver = checkGrid();
 				if(player == 1){
 					player = 2;
@@ -130,6 +133,7 @@ public class Grid extends JPanel implements MouseListener {
 
 				if(counter==4){
 					win = true;
+					copyGrid();
 					UIInstance.printWin(player);
 					return win;
 				}
@@ -150,6 +154,7 @@ public class Grid extends JPanel implements MouseListener {
 
 				if(counter==4){
 					win = true;
+					copyGrid();
 					UIInstance.printWin(player);
 					return win;
 				}
@@ -176,6 +181,7 @@ public class Grid extends JPanel implements MouseListener {
 
 					if(counter==4){
 						win = true;
+						copyGrid();
 						UIInstance.printWin(player);
 						return win;
 					}
@@ -204,6 +210,7 @@ public class Grid extends JPanel implements MouseListener {
 
 					if(counter==4){
 						win = true;
+						copyGrid();
 						UIInstance.printWin(player);
 						return win;
 					}
@@ -316,6 +323,8 @@ public class Grid extends JPanel implements MouseListener {
 		Boolean filled = minimaxCell.fillTile(player);
 		if(filled){
 			gridTrack[thisMove.moveX][thisMove.moveY] = player;
+			Cell.lastX = clickedCell.row;
+			Cell.lastY = clickedCell.column;
 			gameOver = checkGrid();
 
 			if(gameOver){
@@ -334,5 +343,16 @@ public class Grid extends JPanel implements MouseListener {
 	}
 
 
+	private void copyGrid(){
+		
+		
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 7; j++) {
+				
+				gridPrint[i][j] = gridTrack[i][j];
+			}
+			
+		}
+	}
 
 }

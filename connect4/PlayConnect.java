@@ -31,11 +31,15 @@ public class PlayConnect{
 	private Font messFont;
 
 	private JButton randButton,
-	                simpleMinMaxButton,
-	                resetButton;
+	simpleMinMaxButton,
+	resetButton,
+	printGrid;
+
+
 	private RandomMoves randButtonHandle;
 	private ResetGrid resetHandle;
 	private MiniMaxSimpleMove miniMaxHandle;
+	private PrintGrid printGridHandle;
 
 
 	public static void main(String[] args) {
@@ -84,23 +88,30 @@ public class PlayConnect{
 		resetHandle = new ResetGrid();
 		resetButton.addActionListener(resetHandle);
 		buttonPanel.add(resetButton);
-		
-		
-		
+
+
+
 		randButton = new JButton("Random Moves");
 		buttonPanel.add(randButton);
 		randButtonHandle = new RandomMoves();
 		randButton.addActionListener(randButtonHandle);
-		
+
 		simpleMinMaxButton = new JButton("Simple MinMax");
 		buttonPanel.add(simpleMinMaxButton);
 		miniMaxHandle = new MiniMaxSimpleMove();
 		simpleMinMaxButton.addActionListener(miniMaxHandle);
+
+
+		printGrid = new JButton("Print Grid");
+		buttonPanel.add(printGrid);
+		printGridHandle = new PrintGrid();
+		printGrid.addActionListener(printGridHandle);
+		
 		
 		
 		basePanel.add(buttonPanel,BorderLayout.LINE_END);
-		
-		
+
+
 
 
 		mainFrame.setVisible(true);
@@ -124,7 +135,7 @@ public class PlayConnect{
 
 
 	}
-	
+
 	public class ResetGrid implements ActionListener{
 
 		@Override
@@ -135,6 +146,33 @@ public class PlayConnect{
 			gridPanel.resetGrid();
 
 		}
+
+
+	}
+
+
+	public class PrintGrid implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 7; j++) {
+					System.out.print(Grid.gridPrint[i][j] + ",");
+				}
+				System.out.println("");
+			}
+
+			System.out.println("};");
+//			Move.lastX = 5;
+//			Move.lastY = 2;
+//			SimpleMiniMax.moveCount = 0;
+			
+			System.out.println("Move.lastX = " + Cell.lastX + ";");
+			System.out.println("Move.lastY = " + Cell.lastY + ";");
+		}
+		
+	
 
 
 	}

@@ -12,21 +12,26 @@ public class SimpleMiniMaxTester extends SimpleMiniMax {
 
 		gridTrack = new int[][]{ 
 				{0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0},
-				{1,0,0,0,0,0,0},
+				{0,0,0,0,0,0,2},
+				{0,0,0,0,0,0,1},
+				{0,0,1,0,0,0,2},
+				{0,0,1,0,0,2,2},
+				{1,1,1,2,0,1,2},
 		};
 
+		
+		Move.lastX = 3;
+		Move.lastY = 2;
+		SimpleMiniMax.moveCount = 0;
+		
 		SimpleMiniMax.searchdepth = 3;
-		Move.lastX = 5;
-		Move.lastY = 0;
+
 		SimpleMiniMaxTester tester = new SimpleMiniMaxTester();
 		Move maxMove = tester.minimax(gridTrack);
 		System.out.println("MovePlayer: " + maxMove.movePlayer +  
 				"|MoveX: " + maxMove.moveX + 
-				"|MoveY: " + maxMove.moveY);
+				"|MoveY: " + maxMove.moveY + 
+				"#Board: " + SimpleMiniMax.moveCount);
 
 
 		maxMove.print();

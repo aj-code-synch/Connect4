@@ -27,6 +27,8 @@ public class Cell extends JPanel{
 	private static int[][] gridTrack = new int[6][7];
 	public int row,column;
 	public static int cellSize = 80;
+	public static int lastX, lastY;
+	
 	public Cell(int row_in, int column_in){
 		setPreferredSize(new Dimension(cellSize,cellSize));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
