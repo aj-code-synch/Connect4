@@ -42,7 +42,8 @@ public class SimpleMiniMax {
 			}
 		}
 
-		if(depth==0 || move_in.noMoreMoves){
+		if(depth==0 || move_in.noMoreMoves || move_in.gameOver){
+			move_in.moveValue(Grid.getAI());
 			return move_in;
 		} else {
 			for (int i = 0; i < 7; i++) {
@@ -117,8 +118,8 @@ public class SimpleMiniMax {
 			}
 		}
 
-		if(depth==0 || move_in.noMoreMoves){
-			//			int moveValue = moveValue(gridCopy, Human);
+		if(depth==0 || move_in.noMoreMoves || move_in.gameOver){
+			move_in.moveValue(Grid.getHuman());
 			return move_in;
 		} else {
 			for (int i = 0; i < 7; i++) {

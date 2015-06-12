@@ -31,7 +31,7 @@ public class SimpleMiniMaxTester extends SimpleMiniMax {
 		System.out.println("MovePlayer: " + maxMove.movePlayer +  
 				"|MoveX: " + maxMove.moveX + 
 				"|MoveY: " + maxMove.moveY + 
-				"#Board: " + SimpleMiniMax.moveCount);
+				"|Board: " + SimpleMiniMax.moveCount);
 
 
 		maxMove.print();

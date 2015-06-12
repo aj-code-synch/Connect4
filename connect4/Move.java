@@ -11,7 +11,8 @@ public class Move {
 			moveAICount,
 			moveHumanCount;
 	public Boolean noMoreMoves = false;
-	private final int[] moveValues = {0,1,2,4,8,16,32,64,128};
+	public Boolean gameOver = false;
+	private final int[] moveValues = {0,1,10,100,1000};
 
 
 	public static Move lastMove;
@@ -20,6 +21,7 @@ public class Move {
 
 
 	public Move(int[][] CurrGrid, int y, int player_in) throws Exception{
+		moveX = 9;
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
 				newGrid[i][j] = CurrGrid[i][j];
@@ -78,10 +80,10 @@ public class Move {
 
 	}
 
-	private void moveValue(int player_in){
+	public void moveValue(int player_in){
 
 
-		int count = 0,
+		int count = 0, 
 				tempcount = 0,
 				currcount = 0,
 				humanCount = 0,
@@ -90,6 +92,15 @@ public class Move {
 				tempAI = 0,
 				score = 0;
 
+		int AI4Count = 0,
+				AI3Count = 0,
+				AI2Count = 0,
+				H4Count = 0,
+				H3Count = 0,
+				H2Count = 0;
+
+		moveValue = 0;
+		gameOver = false;
 		//		Horizontal Count 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
@@ -109,55 +120,61 @@ public class Move {
 
 				}
 
+				else if(newGrid[i][j]==0){
+					if(AICount<=tempAI){
+						AICount = tempAI;
+						tempAI = 0;
+					}
+
+					if(humanCount<=tempHuman) {
+						humanCount = tempHuman;
+						tempHuman = 0;
+					}
+
+				}
+
+
+			}
+
+			if(AICount<=tempAI){
+				AICount = tempAI;
 
 			}
 
 			if(humanCount<=tempHuman) {
 				humanCount = tempHuman;
-				tempHuman = 0;
+
+			}
+
+			if(humanCount<=tempHuman) {
+				humanCount = tempHuman;
 			}
 
 			if(AICount<=tempAI){
 				AICount = tempAI;
-				tempAI = 0;
 			}
+
+			if(AICount>3) AI4Count ++;
+			if(AICount==3)AI3Count++;
+			if(AICount==2)AI2Count++;
+
+			if(humanCount>3) H4Count ++;
+			if(humanCount==3)H3Count++;
+			if(humanCount==2)H2Count++;
+
+
+			tempAI = tempHuman = 0;
+			AICount = humanCount = 0;
 
 		}
 
-		if(AICount == humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue + 1;
-			}
-			else{
-				moveValue = moveValue - 1;
-			}
-		}
-
-		double count2 = 0.00;
-		count2 = AICount;
-
-		if(AICount > humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue + moveValues[AICount];
-			}
-			else{
-				moveValue = moveValue -  moveValues[AICount];
-			}
-		}
 
 
-		if(AICount < humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue -moveValues[humanCount];
-			}
-			else{
-				moveValue = moveValue + moveValues[humanCount];
-			}
-		}		
 
 
 		//     Vertical Check 
-		tempAI = tempHuman = AICount = humanCount = 0;
+		tempAI = tempHuman =  0;
+		AICount = humanCount = 0;
 		for (int j = 0; j < 7; j++) {
 			for (int i = 0; i < 6; i++) {
 				if(newGrid[i][j]==Grid.getAI()){
@@ -174,57 +191,48 @@ public class Move {
 					}
 
 				}
+				else if(newGrid[i][j]==0){
+					if(AICount<=tempAI){
+						AICount = tempAI;
+						tempAI = 0;
+					}
 
+					if(humanCount<=tempHuman) {
+						humanCount = tempHuman;
+						tempHuman = 0;
+					}
+
+				}
+
+
+			}
+
+			if(AICount<=tempAI){
+				AICount = tempAI;
 
 			}
 
 			if(humanCount<=tempHuman) {
 				humanCount = tempHuman;
-				tempHuman = 0;
-			}
 
-			if(AICount<=tempAI){
-				AICount = tempAI;
-				tempAI = 0;
 			}
+			if(AICount>3) AI4Count ++;
+			if(AICount==3)AI3Count++;
+			if(AICount==2)AI2Count++;
+
+			if(humanCount>3) H4Count ++;
+			if(humanCount==3)H3Count++;
+			if(humanCount==2)H2Count++;
+
+
+			tempAI = tempHuman = 0;
+			AICount = humanCount = 0;
 
 		}
-
-
-		if(AICount == humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue + 1;
-			}
-			else{
-				moveValue = moveValue - 1;
-			}
-		}
-
-
-
-		if(AICount > humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue + moveValues[AICount];
-			}
-			else{
-				moveValue = moveValue -  moveValues[AICount];
-			}
-		}
-
-
-		if(AICount < humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue -moveValues[humanCount];
-			}
-			else{
-				moveValue = moveValue + moveValues[humanCount];
-			}
-		}		
-		
-
 
 		////    Diag Check 1 (\)
-		tempAI = tempHuman = AICount = humanCount = 0;
+		tempAI = tempHuman =  0;
+		AICount = humanCount = 0;
 		for (int j = 0; j < 4; j++) {
 			for (int i = 0; i < 3; i++) {
 
@@ -243,71 +251,51 @@ public class Move {
 							tempAI = 0;
 						}
 
+					} 
+					else if(newGrid[i][j]==0){
+						if(AICount<=tempAI){
+							AICount = tempAI;
+							tempAI = 0;
+						}
+
+						if(humanCount<=tempHuman) {
+							humanCount = tempHuman;
+							tempHuman = 0;
+						}
+
 					}
 
 
 				}
 
-				if(humanCount<=tempHuman) {
-					humanCount = tempHuman;
-					tempHuman = 0;
-				}
-
 				if(AICount<=tempAI){
 					AICount = tempAI;
-					tempAI = 0;
+
 				}
 
+				if(humanCount<=tempHuman) {
+					humanCount = tempHuman;
+
+				}
+				if(AICount>3) AI4Count ++;
+				if(AICount==3)AI3Count++;
+				if(AICount==2)AI2Count++;
+
+				if(humanCount>3) H4Count ++;
+				if(humanCount==3)H3Count++;
+				if(humanCount==2)H2Count++;
+
+
+				tempAI = tempHuman = 0;
+				AICount = humanCount = 0;
 
 			}
 
 
 		}
-
-		if(AICount == humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue + 1;
-			}
-			else{
-				moveValue = moveValue - 1;
-			}
-		}
-
-
-		if(AICount == humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue + 1;
-			}
-			else{
-				moveValue = moveValue - 1;
-			}
-		}
-
-
-
-		if(AICount > humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue + moveValues[AICount];
-			}
-			else{
-				moveValue = moveValue -  moveValues[AICount];
-			}
-		}
-
-
-		if(AICount < humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue -moveValues[humanCount];
-			}
-			else{
-				moveValue = moveValue + moveValues[humanCount];
-			}
-		}		
-	
-
-
 		////    Diag Check 2 (/)
-		tempAI = tempHuman = AICount = humanCount = 0;
+		tempAI = tempHuman =  0;
+		//		AICount = humanCount = 0;
 		for (int j = 3; j < 7; j++) {
 			for (int i = 0; i < 3; i++) {
 
@@ -326,66 +314,65 @@ public class Move {
 							tempAI = 0;
 						}
 
+					} 
+					else if(newGrid[i][j]==0){
+						if(AICount<=tempAI){
+							AICount = tempAI;
+							tempAI = 0;
+						}
+
+						if(humanCount<=tempHuman) {
+							humanCount = tempHuman;
+							tempHuman = 0;
+						}
+
 					}
 
+				}
+
+				if(AICount<=tempAI){
+					AICount = tempAI;
 
 				}
 
 				if(humanCount<=tempHuman) {
 					humanCount = tempHuman;
-					tempHuman = 0;
+
 				}
 
-				if(AICount<=tempAI){
-					AICount = tempAI;
-					tempAI = 0;
-				}
+				if(AICount>3) AI4Count ++;
+				if(AICount==3)AI3Count++;
+				if(AICount==2)AI2Count++;
+
+				if(humanCount>3) H4Count ++;
+				if(humanCount==3)H3Count++;
+				if(humanCount==2)H2Count++;
+
+
+				tempAI = tempHuman = 0;
+				AICount = humanCount = 0;
 
 
 			}
 
 		}
 
+		//		if(H4Count==0){
+		//			moveValue = AI4Count*moveValues[3] + AI3Count*moveValues[2] + AI2Count*moveValues[1];
+		//		}else {
+		//			moveValue = -100000;
+		//		}
 
-		moveAICount = AICount;
-		moveHumanCount = humanCount;
+
+		int[] AI = {AI2Count, AI3Count, AI4Count};
+		int[] Human = {H2Count, H3Count, H4Count};
 
 
+		moveValue = power4Heuristic(AI, Human);
 
-		if(AICount == humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue + 1;
-			}
-			else{
-				moveValue = moveValue - 1;
-			}
+		if(H4Count>0 || AI4Count>0){
+			gameOver = true;
 		}
-
-		
-		
-
-		if(AICount > humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue + moveValues[AICount];
-			}
-			else{
-				moveValue = moveValue -  moveValues[AICount];
-			}
-		}
-
-
-		if(AICount < humanCount) {
-			if (player_in == Grid.getAI()) {
-				moveValue = moveValue -moveValues[humanCount];
-			}
-			else{
-				moveValue = moveValue + moveValues[humanCount];
-			}
-		}		
-	
-
-
-
 	}
 
 	public void print(){
@@ -398,6 +385,26 @@ public class Move {
 			System.out.println("\n");
 
 		}
+	}
+
+	public int power4Heuristic(int[] AI, int[] H){
+		int value = 0;
+
+		//		Math.pow(arg0, arg1)
+
+		for (int i = 0; i < AI.length; i++) {
+			value += AI[i] * ( (int)Math.pow(4,(double)(i+2)));
+		}
+
+
+		for (int i = 0; i < H.length; i++) {
+			value -= 1 * H[i]*((int)Math.pow(4,(double)(i+2)));
+		}
+
+		
+		
+
+		return value;
 	}
 
 }
