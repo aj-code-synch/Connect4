@@ -244,7 +244,7 @@ public class Move {
 							humanCount = tempHuman;
 							tempHuman = 0;
 						}
-					} else if(newGrid[i][j]==Grid.getHuman()){
+					} else if(newGrid[k+i][j+k]==Grid.getHuman()){
 						tempHuman++;
 						if(AICount<=tempAI){
 							AICount = tempAI;
@@ -252,7 +252,7 @@ public class Move {
 						}
 
 					} 
-					else if(newGrid[i][j]==0){
+					else if(newGrid[k+i][j+k]==0){
 						if(AICount<=tempAI){
 							AICount = tempAI;
 							tempAI = 0;
@@ -295,7 +295,7 @@ public class Move {
 		}
 		////    Diag Check 2 (/)
 		tempAI = tempHuman =  0;
-		//		AICount = humanCount = 0;
+	    AICount = humanCount = 0;
 		for (int j = 3; j < 7; j++) {
 			for (int i = 0; i < 3; i++) {
 
@@ -307,7 +307,7 @@ public class Move {
 							humanCount = tempHuman;
 							tempHuman = 0;
 						}
-					} else if(newGrid[i][j]==Grid.getHuman()){
+					} else if(newGrid[k+i][j-k]==Grid.getHuman()){
 						tempHuman++;
 						if(AICount<=tempAI){
 							AICount = tempAI;
@@ -315,7 +315,7 @@ public class Move {
 						}
 
 					} 
-					else if(newGrid[i][j]==0){
+					else if(newGrid[k+i][j-k]==0){
 						if(AICount<=tempAI){
 							AICount = tempAI;
 							tempAI = 0;
@@ -373,6 +373,14 @@ public class Move {
 		if(H4Count>0 || AI4Count>0){
 			gameOver = true;
 		}
+		
+		if(gameOver){
+			
+			if (player_in == Grid.getAI()) 
+				moveValue = 100000; 
+			else moveValue = -100000;
+		}
+			
 	}
 
 	public void print(){

@@ -59,6 +59,7 @@ public class SimpleMiniMax {
 							"|MoveY :" + thisMove.moveY + 
 							"|Move Value : " + thisMove.moveValue +
 							"|Depth : " + depth);
+					if(thisMove.gameOver)System.out.println("GameOver");
 					tempMove = minMove(thisMove, depth-1 );
 
 					if (maxMove==null && tempMove != null) {
@@ -135,6 +136,7 @@ public class SimpleMiniMax {
 							"|MoveY :" + thisMove.moveY + 
 							"|Move Value : " + thisMove.moveValue +
 							"|Depth : " + depth);
+					if(thisMove.gameOver)System.out.println("GameOver");
 					tempMove = maxMove(thisMove, depth-1 );
 
 					if(minMove == null && tempMove != null) {
