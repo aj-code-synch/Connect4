@@ -113,6 +113,24 @@ public class Grid extends JPanel implements MouseListener {
 
 	}
 
+	
+	public void manualCheckGrid(int player_in, int manualGrid[][]){
+		int originalGrid[][] = new int[6][7];
+		int originalPlayer = player;
+		originalGrid = gridTrack;
+		
+		
+		player = player_in;
+		gridTrack = manualGrid;
+		
+		Boolean check = checkGrid();
+		
+		player = originalPlayer;
+		gridTrack = originalGrid;
+		
+		
+		
+	}
 
 	private Boolean checkGrid() {
 		Boolean win = false;
@@ -121,7 +139,7 @@ public class Grid extends JPanel implements MouseListener {
 		gridCopy = gridTrack;
 
 		int counter= 0;
-
+		copyGrid();
 		//     Horizontal Check 		
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 7; j++) {
@@ -135,6 +153,7 @@ public class Grid extends JPanel implements MouseListener {
 					win = true;
 					copyGrid();
 					UIInstance.printWin(player);
+					System.out.println("Horizontal Win");
 					return win;
 				}
 
@@ -156,6 +175,7 @@ public class Grid extends JPanel implements MouseListener {
 					win = true;
 					copyGrid();
 					UIInstance.printWin(player);
+					System.out.println("Verticle Win");
 					return win;
 				}
 
@@ -183,6 +203,7 @@ public class Grid extends JPanel implements MouseListener {
 						win = true;
 						copyGrid();
 						UIInstance.printWin(player);
+						System.out.println("\\ Win");
 						return win;
 					}
 
@@ -212,6 +233,7 @@ public class Grid extends JPanel implements MouseListener {
 						win = true;
 						copyGrid();
 						UIInstance.printWin(player);
+						System.out.println("// Win");
 						return win;
 					}
 
@@ -315,7 +337,7 @@ public class Grid extends JPanel implements MouseListener {
 		Move.lastX = clickedCell.row;
 		Move.lastY = clickedCell.column;
 		SimpleMiniMax minimax = new SimpleMiniMax();
-		SimpleMiniMax.searchdepth = 3;
+		SimpleMiniMax.searchdepth = 4;
 		Move thisMove = minimax.minimax(gridTrack);
 		System.out.println("MinMax Cell --" + thisMove.moveX + "||" + thisMove.moveY);
 		Cell minimaxCell = gridUI[thisMove.moveX][thisMove.moveY];
